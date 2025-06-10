@@ -12,7 +12,16 @@ class App(ctk.CTk):
 
         self.title("TIKTOD V3")
         self.geometry("800x600")
-        self.iconbitmap(resource_path("assets/logo.ico"))
+        try:
+            self.iconbitmap(resource_path("assets/logo.ico"))
+        except Exception as e:
+            # Fallback: try to use PNG icon instead
+            try:
+                icon_image = ctk.CTkImage(light_image=Image.open(resource_path("assets/dark-logo.png")), size=(32, 32))
+                self.iconphoto(True, icon_image._light_image)
+            except Exception:
+                # If all else fails, just continue without an icon
+                pass
 
         # Configure grid layout
         self.grid_columnconfigure(1, weight=1)
